@@ -5,13 +5,18 @@ const CONFIG = require('./configs/config');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+// const passport      = require('passport');
+// const pe            = require('parse-error');
+// const cors          = require('cors');
+// const logger       = require('morgan');
 
 
 // create express branch_service
-const branchService = express();
+const App = express();
 
-branchService.use( bodyParser.urlencoded({extended:true}) );
-// branchService.use( bodyParser.json() );
+// branchService.use(logger('dev'));
+App.use( bodyParser.json() );
+App.use( bodyParser.urlencoded({extended:true}) );
 
 // Configuring the database
 const dbConfig = require('./configs/database.js');
@@ -22,22 +27,21 @@ mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.url, {
     useNewUrlParser: true
 }).then(() => {
-    console.log("Successfully connected to the database");    
+    console.log(`Successfully connected to ${dbConfig.url}`);    
 }).catch(err => {
     console.log('Could not connect to the database. Exiting now...', err);
     process.exit();
 });
 
 // define a simple route
-branchService.get('/', (req, res) => {
-    res.json({"message": "Welcome to Sipmen Branch Service"});
+App.get('/', (req, res) => {
+    res.json({"message": "Welcome to Sipmen MicroServices"});
 });
 
-require('./routes/branch.route.js')(branchService);
+require('./ServiceBranch/routes/branch.route.js')(App);
+require('./ServiceWilayah/routes/wilayah.route.js')(App);
 
 
-
-
-branchService.listen(CONFIG.port, () => {
+App.listen(CONFIG.port, () => {
     console.log(CONFIG.service_name + `is Listening on port ${CONFIG.port}`)
 });

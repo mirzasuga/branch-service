@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const BranchSchema = mongoose.Schema({
+const BranchSchema = mongoose.Schema({  
     vendor_id: Number,
     branch_name: String,
     lat: Number,

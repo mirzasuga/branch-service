@@ -1,7 +1,7 @@
 {
-  "name": "branch-service",
+  "name": "Sipmen-Microservices",
   "version": "1.0.0",
-  "description": "service untu branch vendor",
+  "description": "All Sipmen Services",
   "main": "branch_service.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
