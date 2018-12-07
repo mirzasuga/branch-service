@@ -34,12 +34,13 @@ mongoose.connect(dbConfig.url, {
 });
 
 // define a simple route
-App.get('/', (req, res) => {
-    res.json({"message": "Welcome to Sipmen MicroServices"});
-});
+const router = express.Router();
+const branchRoute = require('./ServiceBranch/routes/branch.route.js');
+const wilayahRoute = require('./ServiceWilayah/routes/wilayah.route.js');
 
-require('./ServiceBranch/routes/branch.route.js')(App);
-require('./ServiceWilayah/routes/wilayah.route.js')(App);
+router.use('/branch', branchRoute);
+router.use('/wilayah', wilayahRoute);
+App.use('/api/v1', router);
 
 
 App.listen(CONFIG.port, () => {

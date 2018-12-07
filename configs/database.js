@@ -1,3 +1,5 @@
+const CONFIG = require('./config');
+
 module.exports = {
-    url: 'mongodb://localhost:27017/sipmen-services'
+    url: `mongodb://${CONFIG.mongodb_host}/sipmen-services`
 }

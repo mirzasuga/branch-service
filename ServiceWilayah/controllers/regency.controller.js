@@ -37,6 +37,10 @@ exports.getRegenciesByProvince = async (req,res) => {
             });
         });
         
-    res.send(regencies);
+    res.send({
+        status_code: 200,
+        message: 'Success',
+        data: regencies
+    });
 
 };

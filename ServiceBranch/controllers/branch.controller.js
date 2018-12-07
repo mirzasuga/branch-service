@@ -1,9 +1,10 @@
 const Branch = require('../models/branch.model.js');
 
 exports.create = (req,res) => {
-    
+    console.log(req.body);
     if(!req.body.vendor_id) {
-        return res.status(400).send({
+        return res.send({
+            status_code: 400,
             message: "Branch content can not be empty"
         });
     }
@@ -20,7 +21,11 @@ exports.create = (req,res) => {
     });
 
     branch.save().then(data => {
-        res.send(data);
+        res.send({
+            status_code: 200,
+            message: 'Success',
+            data: data
+        });
     }).catch(err => {
         res.status(500).send({
             message: err.message || "Some error occurred while creating the Note."

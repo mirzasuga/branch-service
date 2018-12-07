@@ -26,10 +26,18 @@ exports.findById = (req,res) => {
 
 exports.getProvinces = (req,res) => {
     Province.find()
-    .then(provinces => res.send(provinces) )
-    .catch(err => {
+    .then(provinces => {
+        
+        res.send({
+            status_code: 200,
+            message: 'Success',
+            data: provinces
+        });
+
+    }).catch(err => {
         if(err.kind === 'ObjectId') {
-            return res.status(404).send({
+            return res.send({
+                status_code: 404,
                 message: "Province not found with id " + req.params.provinceId
             });
         }

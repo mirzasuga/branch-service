@@ -1,23 +1,23 @@
-module.exports = (branchService) => {
-    
     const branch = require('../controllers/branch.controller.js');
+    const express = require('express');
+    const router = express.Router();
 
     // get all branches
-    branchService.get('/branches', branch.get);
+    router.get('/all', branch.get);
 
     // create branch
-    branchService.post('/branch', branch.create);
+    router.post('/create', branch.create);
 
     // get all vendor branches
-    branchService.get('/branch/vendor/:vendorId', branch.getByVendor);
+    router.get('/vendor/:vendorId', branch.getByVendor);
 
     // find branch
-    branchService.get('/branch/:branchId', branch.find);
+    router.get('/:branchId', branch.find);
 
     // update branch
-    branchService.put('/branch/:branchId', branch.update);
+    router.put('/:branchId', branch.update);
 
     // delete branch
-    branchService.delete('/branch/:branchId', branch.delete);
+    router.delete('/:branchId', branch.delete);
 
-}
+module.exports = router;
