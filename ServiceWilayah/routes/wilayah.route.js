@@ -28,6 +28,7 @@ router.get('/district/:districtId', district.findById);
 /**
  * VILLAGEs
  */
+router.get('/villages/:districtId', village.getVillagesByDistrict);
 router.get('/village/details/:villageId', village.getDetails);
 router.get('/village/:villageId', village.findById);
 

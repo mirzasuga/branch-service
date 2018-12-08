@@ -29,11 +29,11 @@ exports.getRegenciesByProvince = async (req,res) => {
         .catch(err => {
             if(err.kind === 'ObjectId') {
                 return res.status(404).send({
-                    message: "regencies not found with id " + req.params.regencyId
+                    message: "regencies not found with id " + req.params.provinceId
                 });
             }
             return res.status(500).send({
-                message: "Error retrieving regency with id " + req.params.regencyId
+                message: "Error retrieving regency with id " + req.params.provinceId
             });
         });
         
