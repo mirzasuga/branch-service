@@ -2,7 +2,7 @@ const Branch = require('../models/branch.model.js');
 
 exports.create = (req,res) => {
     console.log(req.body);
-    if(!req.body.vendor_id) {
+    if(!req.body.vendor_detail_id) {
         return res.send({
             status_code: 400,
             message: "Branch content can not be empty"
@@ -10,7 +10,7 @@ exports.create = (req,res) => {
     }
 
     const branch = new Branch({
-        vendor_id   : req.body.vendor_id,
+        vendor_detail_id   : req.body.vendor_detail_id,
         branch_name : req.body.branch_name,
         lat         : req.body.lat,
         lng         : req.body.lng,
