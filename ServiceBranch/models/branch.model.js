@@ -5,10 +5,10 @@ const BranchSchema = mongoose.Schema({
     branch_name: String,
     lat: Number,
     lng: Number,
-    province_id: Number,
-    kota_id: Number,
-    kecamatan_id: Number,
-    kelurahan_id: Number,
+    province_id: String,
+    regency_id: String,
+    district_id: String,
+    village_id: String,
 
 }, {
     timestamps: true

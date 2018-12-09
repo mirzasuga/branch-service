@@ -2,10 +2,32 @@ const Branch = require('../models/branch.model.js');
 
 exports.create = (req,res) => {
     console.log(req.body);
-    if(!req.body.vendor_detail_id) {
-        return res.send({
+    const required = [
+        'vendor_detail_id',
+        'branch_name',
+        'lat',
+        'lng',
+        'province_id',
+        'village_id',
+        'regency_id',
+        'district_id'
+    ];
+    const errors = [];
+    // asdasdasd
+    required.map(field => {
+        if(req.body[field] == "" || req.body[field] === null || req.body[field] == undefined ) {
+            const show = field.split('_').join(' ').toUpperCase();
+            let err = {
+                field: field,
+                message: `${show} can not be empty`
+            };
+            errors.push(err);
+        }
+    })
+    if(errors.length > 0) {
+        res.send({
             status_code: 400,
-            message: "Branch content can not be empty"
+            message: { errors: errors }
         });
     }
 
@@ -15,9 +37,9 @@ exports.create = (req,res) => {
         lat         : req.body.lat,
         lng         : req.body.lng,
         province_id : req.body.province_id,
-        kota_id     : req.body.kota_id,
-        kecamatan_id: req.body.kecamatan_id,
-        kelurahan_id: req.body.kelurahan_id,
+        village_id  : req.body.village_id,
+        regency_id  : req.body.regency_id,
+        district_id : req.body.district_id,
     });
 
     branch.save().then(data => {
