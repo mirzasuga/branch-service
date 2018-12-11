@@ -1,56 +1,43 @@
 const Branch = require('../models/branch.model.js');
+const branchValidator = require('../validators/branch.validator.js');
 
 exports.create = (req,res) => {
-    console.log(req.body);
-    const required = [
-        'vendor_detail_id',
-        'branch_name',
-        'lat',
-        'lng',
-        'province_id',
-        'village_id',
-        'regency_id',
-        'district_id'
-    ];
-    const errors = [];
-    // asdasdasd
-    required.map(field => {
-        if(req.body[field] == "" || req.body[field] === null || req.body[field] == undefined ) {
-            const show = field.split('_').join(' ').toUpperCase();
-            let err = {
-                field: field,
-                message: `${show} can not be empty`
-            };
-            errors.push(err);
-        }
+
+    branchValidator.validate('create', req.body).then(status => {
+        
+        const branch = new Branch({
+            vendor_detail_id   : req.body.vendor_detail_id,
+            branch_name : req.body.branch_name,
+            lat         : req.body.lat,
+            lng         : req.body.lng,
+            province_id : req.body.province_id,
+            province_name: req.body.province_name,
+            village_id  : req.body.village_id,
+            village_name  : req.body.village_name,
+            regency_id  : req.body.regency_id,
+            regency_name  : req.body.regency_name,
+            district_id : req.body.district_id,
+            district_name : req.body.district_name,
+        });
+    
+        branch.save().then(data => {
+            res.send({
+                status_code: 200,
+                message: 'Success',
+                data: data
+            });
+        }).catch(err => {
+            res.status(500).send({
+                message: {errors: err.message || "Some error occurred while creating the Note." }
+            });
+        });
+
     })
-    if(errors.length > 0) {
+    .catch(errors => {
+        console.log(errors);
         res.send({
             status_code: 400,
-            message: { errors: errors }
-        });
-    }
-
-    const branch = new Branch({
-        vendor_detail_id   : req.body.vendor_detail_id,
-        branch_name : req.body.branch_name,
-        lat         : req.body.lat,
-        lng         : req.body.lng,
-        province_id : req.body.province_id,
-        village_id  : req.body.village_id,
-        regency_id  : req.body.regency_id,
-        district_id : req.body.district_id,
-    });
-
-    branch.save().then(data => {
-        res.send({
-            status_code: 200,
-            message: 'Success',
-            data: data
-        });
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while creating the Note."
+            message: {errors: errors }
         });
     });
 }
@@ -68,7 +55,7 @@ exports.get = (req,res) => {
 
 exports.getByVendor = (req,res) => {
 
-    Branch.find({ vendor_id:req.params.vendorId })
+    Branch.find({ vendor_detail_id:req.params.vendorId }).sort({createdAt: -1})
     .then(branch => {
         if(branch.length <= 0) {
             return res.status(404).send({

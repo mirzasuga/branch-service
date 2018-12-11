@@ -6,9 +6,13 @@ const BranchSchema = mongoose.Schema({
     lat: Number,
     lng: Number,
     province_id: String,
+    province_name: String,
     regency_id: String,
+    regency_name: String,
     district_id: String,
-    village_id: String,
+    district_name: String,
+    vilage_id: String,
+    village_name: String,
 
 }, {
     timestamps: true
