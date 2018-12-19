@@ -3,15 +3,15 @@ const mongoose = require('mongoose');
 const BranchSchema = mongoose.Schema({  
     vendor_detail_id: Number,
     branch_name: String,
-    lat: Number,
-    lng: Number,
+    lat: String,
+    lng: String,
     province_id: String,
     province_name: String,
     regency_id: String,
     regency_name: String,
     district_id: String,
     district_name: String,
-    vilage_id: String,
+    village_id: String,
     village_name: String,
 
 }, {

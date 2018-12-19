@@ -37,9 +37,11 @@ mongoose.connect(dbConfig.url, {
 const router = express.Router();
 const branchRoute = require('./ServiceBranch/routes/branch.route.js');
 const wilayahRoute = require('./ServiceWilayah/routes/wilayah.route.js');
+const tarifRoute = require('./ServiceTarif/routes/tarif.route.js');
 
 router.use('/branch', branchRoute);
 router.use('/wilayah', wilayahRoute);
+router.use('/tarif', tarifRoute);
 App.use('/api/v1', router);
 
 
