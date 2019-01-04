@@ -12,6 +12,7 @@ const village = require('../controllers/village.controller.js');
  */
 router.get('/province/all', province.getProvinces);
 router.get('/province/:provinceId', province.findById);
+router.get('/province/search/by', province.searchBy);
 
 /**
  * REGENCIEs

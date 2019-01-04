@@ -46,3 +46,30 @@ exports.getProvinces = (req,res) => {
         });
     });
 };
+
+exports.searchBy = (req,res) => {
+    const pattern = req.query.province_name;
+    console.log(pattern);
+    Province.find({
+        name: new RegExp('^'+pattern, "i")
+    })
+    .then(provinces => {
+        
+        res.send({
+            status_code: 200,
+            message: 'Success',
+            data: provinces
+        });
+
+    }, err => {
+        if(err.kind === 'ObjectId') {
+            return res.send({
+                status_code: 404,
+                message: "Province not found with pattern " + req.query.province_name
+            });
+        }
+        return res.status(500).send({
+            message: "Error retrieving province with pattern " + req.query.province_name
+        });
+    });
+};
