@@ -51,7 +51,7 @@ exports.searchBy = (req,res) => {
     const pattern = req.query.province_name;
     console.log(pattern);
     Province.find({
-        name: new RegExp('^'+pattern, "i")
+        name: new RegExp(pattern, "i")
     })
     .then(provinces => {
         

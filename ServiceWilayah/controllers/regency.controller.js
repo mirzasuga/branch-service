@@ -23,8 +23,17 @@ exports.findById = (req,res) => {
 };
 
 exports.getRegenciesByProvince = async (req,res) => {
+    let query = {province_id: req.params.provinceId};
+    if(req.body.name) {
+        query = {
+            province_id: req.params.provinceId,
+            name: new RegExp(req.body.name, "i")
+        };
+    }
 
-    const regencies = await Regency.find({province_id: req.params.provinceId})
+    console.log({query});
+
+    const regencies = await Regency.find(query)
         .then(regencies => regencies )
         .catch(err => {
             if(err.kind === 'ObjectId') {

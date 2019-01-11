@@ -5,7 +5,7 @@ const rules = {
         branch_id: 'required',
         vendor_name: 'required',
         vendor_detail_id: 'required',
-        branch_location: 'required',
+        coordinates: 'required',
         branch_province_id: 'required',
         branch_province_name: 'required',
         branch_village_id: 'required',

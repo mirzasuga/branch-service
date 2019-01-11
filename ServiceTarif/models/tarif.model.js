@@ -13,7 +13,7 @@ const TarifSchema = mongoose.Schema({
     branch_regency_name: String,
     branch_district_id: String,
     branch_district_name: String,
-    branch_location: [String, String],
+    branch_location: Object,
     destination_province_id: String,
     destination_province_name: String,
     destination_village_id: String,
@@ -31,4 +31,5 @@ const TarifSchema = mongoose.Schema({
     timestamps: true
 });
 
-module.exports = mongoose.model('Tarif', TarifSchema);
+const TarifModel = mongoose.model('Tarif', TarifSchema);
+module.exports = TarifModel;

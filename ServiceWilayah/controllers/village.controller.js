@@ -8,7 +8,17 @@ exports.getDetails = (req, res) => { };
 
 exports.getVillagesByDistrict = async (req, res) => {
 
-    const villages = await Village.find({ district_id: req.params.districtId })
+    let query = { district_id: req.params.districtId };
+    if(req.body.name) {
+        query = {
+            district_id: req.params.districtId,
+            name: new RegExp(req.body.name, "i")
+            
+        };
+    }
+    console.log({query});
+
+    const villages = await Village.find(query)
         .then(villages => villages)
         .catch(err => {
             if (err.kind === 'ObjectId') {

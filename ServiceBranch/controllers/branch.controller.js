@@ -57,11 +57,11 @@ exports.getByVendor = (req,res) => {
 
     Branch.find({ vendor_detail_id:req.params.vendorId }).sort({createdAt: -1})
     .then(branch => {
-        if(branch.length <= 0) {
-            return res.status(404).send({
-                message: "Branch not found with vendor id " + req.params.vendorId
-            });            
-        }
+        // if(branch.length <= 0) {
+        //     return res.status(404).send({
+        //         message: "Branch not found with vendor id " + req.params.vendorId
+        //     });            
+        // }
         res.send({data: branch });
     }).catch(err => {
         if(err.kind === 'ObjectId') {

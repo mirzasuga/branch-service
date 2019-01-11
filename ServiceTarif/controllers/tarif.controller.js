@@ -2,13 +2,19 @@ const Tarif = require('../models/tarif.model.js');
 const tarifValidator = require('../validators/tarif.validator.js');
 
 exports.create = (req,res) => {
-    console.log(req.body);
     tarifValidator.validate('create', req.body).then(status => {
+        
+        const coordinates = req.body.coordinates;
+        coordinates[0] = parseFloat(coordinates[0]);
+        coordinates[1] = parseFloat(coordinates[1]);
         const tarif = new Tarif({
             branch_id: req.body.branch_id,
             vendor_name: req.body.vendor_name,
             vendor_detail_id: req.body.vendor_detail_id,
-            branch_location: req.body.branch_location,
+            branch_location: {
+                type: "Point",
+                coordinates: coordinates
+            },
             branch_province_id: req.body.branch_province_id,
             branch_province_name: req.body.branch_province_name,
             branch_village_id: req.body.branch_village_id,
@@ -38,6 +44,7 @@ exports.create = (req,res) => {
                 data: data
             });
         }).catch(err => {
+            console.log(err);
             res.status(500).send({
                 message: {errors: err.message || "Some error occurred while creating the Note." }
             });
@@ -58,7 +65,6 @@ exports.getByVendor = (req, res) => {
     
     Tarif.find({ vendor_detail_id:req.params.vendorId }).sort({createdAt: -1})
     .then(tarif => {
-        
         // if(tarif.length <= 0) {
         //     return res.status(404).send({
         //         message: "Tarif not found with vendor id " + req.params.vendorId
@@ -73,13 +79,82 @@ exports.getByVendor = (req, res) => {
                 message: "Tarif not found with id " + req.params.vendorId
             });
         }
-        console.log('inidia');
         return res.status(500).send({
             // message: "Error retrieving note with id " + req.params.branchId
             message: err.message
         });
     });
 }
+
+exports.findTarif = (req, res) => {
+    
+    Tarif.findById(req.params.tarifId)
+    .then(tarif => {
+        
+        // if(tarif.length <= 0) {
+        //     return res.status(404).send({
+        //         message: "Tarif not found with vendor id " + req.params.vendorId
+        //     });
+        // }
+        res.send({ status_code: 200, message: 'Success', data: tarif });
+        
+    }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.send({
+                status_code: 404,
+                message: "Tarif not found with id " + req.params.tarifId
+            });
+        }
+        return res.status(500).send({
+            // message: "Error retrieving note with id " + req.params.branchId
+            message: err.message
+        });
+    });
+}
+
+exports.getNearTarifs = (req, res) => {
+
+    const origin = req.query.origin_province_id;
+    const destination = req.query.destination_district_id;
+    const userLocations = [ parseFloat(req.query.lng), parseFloat(req.query.lat)];
+    console.log({userLocations});
+    Tarif.find({
+        branch_location: {
+            $nearSphere: {
+                $geometry: {
+                    type: "Point",
+                    coordinates: userLocations
+                },
+                $minDistance: 0,
+                $maxDistance: 2000
+            }
+        },
+        destination_district_id: destination
+    }).then(tarifs => {
+        res.send({ status_code: 200, message: 'Success', data: tarifs });
+    }, errors => {
+        console.log(errors);
+        return res.send({
+            status_code: 404,
+            message: "Tarif not found with id " + req.query.origin_province_id
+        });
+    })
+
+    // Tarif.find({ 
+    //     branch_location: {
+    //         $nearSphere: {
+    //             $geometry: {
+    //                 type: "Point",
+    //                 coordinates: [106.773595, -6.23682]
+    //             },
+    //             $minDistance: 0,
+    //             $maxDistance: 1
+    //         }
+    //     },
+    //     branch_province_id: "31",
+    //     destination_district_id: "1702034"
+    //  }).sort({createdAt: -1})
+};
 
 // exports.create = (req,res) => {
 

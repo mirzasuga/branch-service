@@ -25,6 +25,7 @@ router.get('/regency/:regencyId', regency.findById);
  */
 router.get('/districts/:regencyId', district.getDistrictByRegency);
 router.get('/district/:districtId', district.findById);
+router.get('/district/search/by', district.searchBy);
 
 /**
  * VILLAGEs
