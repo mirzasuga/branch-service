@@ -11,6 +11,7 @@ exports.create = (req,res) => {
             branch_id: req.body.branch_id,
             vendor_name: req.body.vendor_name,
             vendor_detail_id: req.body.vendor_detail_id,
+            vendor_detail_logo: req.body.vendor_detail_logo,
             branch_location: {
                 type: "Point",
                 coordinates: coordinates
@@ -87,7 +88,7 @@ exports.getByVendor = (req, res) => {
 }
 
 exports.findTarif = (req, res) => {
-    
+    console.log(req.params.tarifId);
     Tarif.findById(req.params.tarifId)
     .then(tarif => {
         

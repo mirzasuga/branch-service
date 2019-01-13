@@ -5,6 +5,7 @@ const TarifSchema = mongoose.Schema({
     branch_id: String,
     vendor_name: String,
     vendor_detail_id: String,
+    vendor_detail_logo: String,
     branch_province_id: String,
     branch_province_name: String,
     branch_village_id: String,
