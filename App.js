@@ -42,8 +42,13 @@ const tarifRoute = require('./ServiceTarif/routes/tarif.route.js');
 router.use('/branch', branchRoute);
 router.use('/wilayah', wilayahRoute);
 router.use('/tarif', tarifRoute);
+router.get('/ping', (req,res) => {
+    res.send({
+        status_code: 200,
+        message: 'Success'
+    });
+});
 App.use('/api/v1', router);
-
 
 App.listen(CONFIG.port, () => {
     console.log(CONFIG.service_name + `is Listening on port ${CONFIG.port}`)
